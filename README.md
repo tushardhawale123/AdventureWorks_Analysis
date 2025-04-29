@@ -1,117 +1,70 @@
-# AdventureWorks 2019 Sales Analysis
+# AdventureWorks Data Analysis Project
 
-## Project Overview
-This Power BI project provides a comprehensive analysis of sales data from the AdventureWorks 2019 database. It includes interactive dashboards and reports that enable stakeholders to gain insights into sales performance, product trends, customer behavior, and regional analysis.
+## Overview
+This project provides analysis of the AdventureWorks database, which represents a fictional bicycle manufacturer's data model. The database includes information about products, sales, purchasing, human resources, and more.
 
 ## Data Source
-The project utilizes the AdventureWorks 2019 sample database, a Microsoft SQL Server database that simulates a manufacturing company selling bicycles and related products. Key tables used include:
-- Sales.SalesOrderHeader
-- Sales.SalesOrderDetail
-- Production.Product
-- Production.ProductSubcategory
-- Production.ProductCategory
-- Sales.Customer
-- Person.Person
-- Sales.Territory
+The AdventureWorks2019 dataset was downloaded from the official Microsoft link:
+https://learn.microsoft.com/en-us/sql/samples/adventureworks-install-configure
 
-## Data Model
-![Data Model](./images/data-model.png)
+## Repository Contents
+- **Data Dictionary**: Comprehensive documentation of database tables and relationships
+- **Analysis Scripts**: SQL queries for data exploration and analysis
+- **Power BI Reports**: Interactive dashboards and visualizations
 
-The data model follows a star schema design with:
-- Fact tables: Sales data (Sales.SalesOrderHeader and Sales.SalesOrderDetail)
-- Dimension tables: Products, Customers, Territory, Date
+## Dashboard Images
+- **Executive Dashboard**: ![Executive Dashboard](images/exec_dash.png)
+- **Inventory Dashboard**: ![Inventory Dashboard](images/inventory_dash.png)
+- **Product Dashboard**: ![Product Dashboard](images/prod_dash.png)
+- **Sales Dashboard**: ![Sales Dashboard](images/sales_dash.png)
 
-## Data Transformation (Power Query)
-Key transformations include:
-- Created a Date dimension table
-- Merged Product tables to create a comprehensive Product dimension
-- Cleaned and standardized customer data
-- Currency conversion for international sales
-- Added calculated columns for time intelligence
+## Database Schema
+The AdventureWorks database is organized into 5 main schemas:
+- **HumanResources**: Contains 6 tables related to employees and organizational structure
+- **Person**: Contains 13 tables with customer and contact information
+- **Production**: Contains 25 tables with products, inventory, and manufacturing data
+- **Purchasing**: Contains 5 tables related to vendors and purchase orders
+- **Sales**: Contains 19 tables with customer, order, and sales data
 
-## Key DAX Measures
-```
-Total Sales = SUM(Sales[SalesAmount])
+## Key Tables and Record Counts
+The database contains 71 tables with approximately 675,000 records:
+- SalesOrderDetail (121,317 records): Individual line items for sales
+- TransactionHistory (113,443 records): Product transaction history
+- TransactionHistoryArchive (89,253 records): Archived transaction history
+- WorkOrder (72,591 records): Manufacturing work orders
+- WorkOrderRouting (67,131 records): Manufacturing steps
+- SalesOrderHeader (31,465 records): Sales order headers
 
-YTD Sales = 
-TOTALYTD(SUM(Sales[SalesAmount]), 'Date'[Date])
+## Entity Relationships
+The repository includes a detailed mapping of foreign key relationships between tables, which helps in understanding:
+- How customers connect to orders
+- How products relate to categories and inventory
+- How employees connect to departments and sales territories
+- How vendors connect to purchase orders
 
-Sales Growth % = 
-VAR CurrentPeriodSales = [Total Sales]
-VAR PreviousPeriodSales = CALCULATE([Total Sales], DATEADD('Date'[Date], -1, YEAR))
-RETURN
-    IF(PreviousPeriodSales = 0, BLANK(),
-    (CurrentPeriodSales - PreviousPeriodSales) / PreviousPeriodSales)
+## Getting Started
+1. Review the DATA_DICTIONARY.md file to understand database structure
+2. Explore the SQL scripts to see analysis examples
+3. Open the Power BI reports to interact with the visualizations
 
-Product Profit Margin % = 
-DIVIDE([Total Profit], [Total Sales], 0)
-```
+## Usage with Power BI
+When connecting to this data with Power BI:
+- Use the relationships defined in the foreign key relationships file to create your data model
+- Consider the row counts when designing queries for performance optimization
+- Create hierarchies for dimensions like Product (Category → Subcategory → Product)
+- Create date tables to enable time intelligence functions
 
-## Report Pages
+## Analysis Opportunities
+This dataset is ideal for:
+- Sales analysis by territory, product, or time period
+- Inventory management analysis
+- Employee performance evaluation
+- Product profitability analysis
+- Customer purchasing behavior analysis
 
-### 1. Executive Summary
-![Executive Summary](./images/exec-summary.png)
-
-Provides a high-level overview of key performance indicators including:
-- Total sales and comparison to targets
-- YTD sales with year-over-year comparison
-- Top-selling products and categories
-- Sales by region
-
-### 2. Product Analysis
-Detailed breakdown of product performance:
-- Sales by product category and subcategory
-- Profit margin analysis
-- Product mix visualization
-- Seasonal product trends
-
-### 3. Customer Analysis
-Insights into customer behavior:
-- Customer segmentation by purchase volume
-- Geographic distribution of customers
-- Customer acquisition and retention metrics
-- Customer lifetime value
-
-### 4. Regional Performance
-Geographic analysis of sales performance:
-- Sales by territory and region
-- Regional growth rates
-- Market penetration metrics
-- Regional product preferences
-
-## Insights & Findings
-- Accessories and Bikes are the highest revenue-generating categories
-- Q4 consistently shows the highest sales volume across years
-- North America represents 70% of total sales, with emerging growth in Europe
-- Customer retention rate shows strong improvement in recent periods
-- Product X has the highest profit margin at 42%
-
-## How to Use This Report
-1. **Prerequisites**:
-   - Power BI Desktop (latest version recommended)
-   - Access to AdventureWorks 2019 database or the included Excel data export
-
-2. **Opening the Report**:
-   - Download the .pbix file
-   - Open with Power BI Desktop
-   - Refresh data if needed (may require database connection configuration)
-
-3. **Navigation**:
-   - Use the tabs at the bottom to navigate between report pages
-   - Interact with slicers to filter data
-   - Hover over visualizations for tooltips with additional information
-
-## Future Enhancements
-- Add forecast models for sales prediction
-- Implement customer churn analysis
-- Create mobile-optimized view
-- Add competitor analysis dashboard
-
-## Tools & Technologies
-- Microsoft Power BI Desktop
-- SQL Server 2019
-- DAX (Data Analysis Expressions)
-- Power Query M language
-
-## Author
-Tushar Dhawale
+## Power BI Features Utilized
+- **Data Modeling**: Star schema implementation with proper relationships
+- **DAX Measures**: Custom calculations for KPIs and metrics
+- **Visual Interactions**: Synchronized filtering across report elements
+- **Drill-through**: Detailed analysis capabilities from summary views
+- **Power Query**: Data transformation and preparation
